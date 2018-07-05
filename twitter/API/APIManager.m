@@ -84,4 +84,36 @@ static NSString * const consumerSecret = @"O87fLl5eZcLWelPwtAHSXNbgPTlqlyt10Q6Sg
     }];
 }
 
+//called when favorite button is clicked 
+- (void)favorite:(Tweet *)tweet completion:(void (^)(Tweet *, NSError *))completion {
+    NSString *urlString;
+    if (tweet.isFavorite) urlString = @"1.1/favorites/create.json";
+    else urlString =  @"1.1/favorites/destroy.json";
+
+    
+    NSDictionary *parameters = @{@"id":tweet.tweetId};
+    [self POST:urlString parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable tweetDictionary) {
+        Tweet *tweet = [[Tweet alloc]initWithDictionary:tweetDictionary];
+        completion(tweet, nil);
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        completion(nil, error);
+    }];
+}
+
+-(void)retweet:(Tweet *)tweet completion:(void (^)(Tweet *, NSError *))completion {
+    NSString *urlString;
+    
+    if (tweet.isRetweeted) urlString = @"1.1/statuses/retweet.json";
+    else urlString = @"1.1/statuses/unretweet.json";
+    
+    NSDictionary *parameters = @{@"id":tweet.tweetId};
+    [self POST:urlString parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable tweetDictionary) {
+        Tweet *tweet = [[Tweet alloc]initWithDictionary:tweetDictionary];
+        completion(tweet, nil);
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        completion(nil, error);
+    }];
+}
+
+
 @end

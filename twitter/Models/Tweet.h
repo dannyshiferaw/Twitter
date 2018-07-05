@@ -13,10 +13,11 @@
 
 @property(nonatomic, strong) NSString *createdAt;
 @property(nonatomic, strong) NSString *tweetId;
+@property NSInteger *tweetIntId;
 @property(nonatomic, strong) NSString *text;
 @property(nonatomic) int favoriteCount;
 @property(nonatomic) BOOL isFavorite;
-@property(nonatomic) int retweetCount;
+@property(nonatomic) NSInteger *retweetCount;
 @property(nonatomic) BOOL isRetweeted;
 @property(nonatomic, strong) User *user;
 

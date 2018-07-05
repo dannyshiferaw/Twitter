@@ -25,6 +25,10 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *numOfFavoritesLabel;
 
+@property (weak, nonatomic) IBOutlet UIButton *favBtn;
+
+@property (weak, nonatomic) IBOutlet UIButton *retweetBtn;
+
 @property (nonatomic, strong) Tweet *tweet;
 
 -(void)configureCell:(Tweet *)tweet;

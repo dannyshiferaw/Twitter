@@ -23,12 +23,14 @@
         }
         self.createdAt = dictionary[@"created_at"];
         self.tweetId = dictionary[@"id_str"];
+        self.tweetIntId = [dictionary[@"id"] integerValue];
         self.text = dictionary[@"text"];
         self.user = dictionary[@"user"];
         self.isFavorite = [dictionary[@"favorite"] boolValue];
         self.favoriteCount = [dictionary[@"favorite_count"] intValue];
         self.isRetweeted = [dictionary[@"retweeted"] boolValue];
         self.retweetCount = [dictionary[@"retweet_count"] intValue];
+    
         
         //initialize User
         NSDictionary *user = dictionary[@"user"];

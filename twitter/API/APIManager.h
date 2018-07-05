@@ -16,6 +16,13 @@
 
 - (void)getHomeTimelineWithCompletion:(void(^)(NSArray *tweets, NSError *error))completion;
 
+//compose and sends new tweets
 - (void)postTweet:(NSString *)tweetText completion:(void (^)(Tweet *, NSError *))completion;
+
+//called when a tweet is liked/unliied
+- (void)favorite:(Tweet *)tweet completion:(void (^)(Tweet *, NSError *))completion;
+
+//called when a tweet is retweeted/unretweeted
+-(void)retweet:(Tweet *)tweet completion:(void (^)(Tweet *, NSError *))completion;
 
 @end

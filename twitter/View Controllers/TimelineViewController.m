@@ -19,8 +19,15 @@
 
 @implementation TimelineViewController
 
+UIRefreshControl *refreshControl;
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+    refreshControl = [[UIRefreshControl alloc] init];
+    [refreshControl addTarget:self action:@selector(beginRefreshing:) forControlEvents:UIControlEventValueChanged];
+    [self.tableView insertSubview:refreshControl atIndex:0];
+    
     
     //set self as delegate and datasource
     self.tableView.delegate = self;
@@ -30,7 +37,11 @@
     //initialize
     self.tweets = [[NSMutableArray alloc] init];
     
-    // Get timeline
+    [self loadTweets];
+}
+
+//Get Timeline
+-(void)loadTweets {
     [[APIManager shared] getHomeTimelineWithCompletion:^(NSArray *tweetsArray, NSError *error) {
         if (tweetsArray) {
             NSLog(@"😎😎😎 Successfully loaded home timeline");
@@ -42,7 +53,6 @@
             NSLog(@"😫😫😫 Error getting home timeline: %@", error.localizedDescription);
         }
     }];
-    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -70,6 +80,12 @@
     UINavigationController *navigationController = [segue destinationViewController];
     ComposeViewController *composeController = (ComposeViewController*)navigationController.topViewController;
     composeController.delegate = self;
+}
+//Calls the API manager to get tweets, and reloads table
+//hides refresh controller
+-(void)beginRefreshing: (UIRefreshControl *)refreshControl {
+    [self loadTweets];
+    [refreshControl endRefreshing];
 }
 
 
