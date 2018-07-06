@@ -33,7 +33,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    [self loadUser];
+    [self loadUser];    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -44,13 +44,15 @@
 
 //makes a GET request to retrieve owner's profile
 - (void)loadUser {
-    [[APIManager shared]getOwnerProfile:^(User *user, NSError *error) {
+    [[APIManager shared]getProfile:^(User *user, NSError *error) {
         if (user) {
             self.user = user;
+            [self configureUI];
         } else {
             NSLog(@"😫😫😫 Error getting owner profile: %@", error.localizedDescription);
         }
     }];
+    
 }
 
 -(void)configureUI {
@@ -62,6 +64,7 @@
                                    self.user.followers_count];
     self.userFollowingCount.text = [NSString stringWithFormat:@"%d",
                                     self.user.following_count];
+    self.userTweetsCount.text = [NSString stringWithFormat:@"%d",0];
     
 }
 

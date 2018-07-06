@@ -51,25 +51,24 @@ static NSString * const consumerSecret = @"O87fLl5eZcLWelPwtAHSXNbgPTlqlyt10Q6Sg
 - (void)getHomeTimelineWithCompletion:(void(^)(NSArray *tweets, NSError *error))completion {
     
     [self GET:@"1.1/statuses/home_timeline.json" parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSArray *  _Nullable tweetDictionaries) {
-     
+        
         // Manually cache the tweets. If the request fails, restore from cache if possible.
         NSData *data = [NSKeyedArchiver archivedDataWithRootObject:tweetDictionaries];
         [[NSUserDefaults standardUserDefaults] setValue:data forKey:@"hometimeline_tweets"];
         
         NSMutableArray *tweets = [Tweet tweetsWithArray: tweetDictionaries];
         completion(tweets, nil);
-       
-   } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-       
-       NSArray *tweetDictionaries = [NSArray array];
-       
-       // Fetch tweets from cache if possible
-       NSData *data = [[NSUserDefaults standardUserDefaults] valueForKey:@"hometimeline_tweets"];
-       if (data != nil) {
-           tweetDictionaries = [NSKeyedUnarchiver unarchiveObjectWithData:data];
-       }
-       completion(tweetDictionaries, error);
-   }];
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+        NSMutableArray *tweets = nil;
+        // Fetch tweets from cache if possible
+        NSData *data = [[NSUserDefaults standardUserDefaults] valueForKey:@"hometimeline_tweets"];
+        if (data != nil) {
+            tweets = [Tweet tweetsWithArray:[NSKeyedUnarchiver unarchiveObjectWithData:data]];
+        }
+        completion(tweets, error);
+    }];
 }
 
 //posts a new tweet
@@ -113,7 +112,6 @@ static NSString * const consumerSecret = @"O87fLl5eZcLWelPwtAHSXNbgPTlqlyt10Q6Sg
 -(void)retweet:(Tweet *)tweet completion:(void (^)(Tweet *, NSError *))completion {
     //end point
     NSString *urlString;
-    
     //set the end point
     if (tweet.isRetweeted) urlString = @"1.1/statuses/retweet.json";
     else urlString = @"1.1/statuses/unretweet.json";
@@ -128,13 +126,12 @@ static NSString * const consumerSecret = @"O87fLl5eZcLWelPwtAHSXNbgPTlqlyt10Q6Sg
     }];
 }
 
--(void)getOwnerProfile: (void(^)(User *user, NSError *error))completion {
+-(void)getProfile: (void(^)(User *user, NSError *error))completion {
     //end point
     NSString *urlString = @"1.1/account/verify_credentials.json";
-    
     //make GET request
     [self GET:urlString parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable userProfile) {
-        User *user  = [[User alloc] initWithDictionary:userProfile];
+        User *user = [[User alloc] initWithDictionary:userProfile];
         completion(user, nil);
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         completion(nil, error);

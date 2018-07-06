@@ -28,6 +28,7 @@
     self.tweetLabel.text = [NSString stringWithFormat:@"%@", self.tweet.text];           //tweet text
     self.numOfFavoritesLabel.text = [NSString stringWithFormat:@"%d", self.tweet.favoriteCount];   //favorite count
     self.numOfRetweetsLabel.text = [NSString stringWithFormat:@"%d", self.tweet.retweetCount];     //retweets count
+    self.numOfRepliesLabel.text = [NSString stringWithFormat:@"%d", 0];     //retweets count
     
     //get tweeter's info
     User *user = [self.tweet user];
@@ -98,8 +99,8 @@
 }
 //logout
 - (IBAction)logout:(id)sender {
-    
     AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     LoginViewController *loginViewController = [storyboard instantiateViewControllerWithIdentifier:@"LoginViewController"];
     appDelegate.window.rootViewController = loginViewController;

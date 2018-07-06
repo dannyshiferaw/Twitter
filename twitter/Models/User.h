@@ -16,7 +16,7 @@
 @property(nonatomic, strong) NSURL* profileImageUrl;
 @property NSInteger *followers_count;
 @property NSInteger *following_count;
-@property NSInteger *tweets_count; 
+@property NSInteger *tweets_count;
 
 
 -(instancetype)initWithDictionary: (NSDictionary *) dictionary;

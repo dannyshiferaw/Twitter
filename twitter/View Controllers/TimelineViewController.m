@@ -35,8 +35,6 @@ UIRefreshControl *refreshControl;
     self.tableView.dataSource = self;
     self.tableView.rowHeight = 200; 
     
-    //initialize
-    self.tweets = [[NSMutableArray alloc] init];
     
     [self loadTweets];
 }
@@ -46,9 +44,7 @@ UIRefreshControl *refreshControl;
     [[APIManager shared] getHomeTimelineWithCompletion:^(NSArray *tweetsArray, NSError *error) {
         if (tweetsArray) {
             NSLog(@"😎😎😎 Successfully loaded home timeline");
-            for (Tweet *tweet in tweetsArray) {
-                [self.tweets addObject:tweet];
-            }
+            self.tweets = [[NSMutableArray alloc] initWithArray:tweetsArray];
             [self.tableView reloadData];
         } else {
             NSLog(@"😫😫😫 Error getting home timeline: %@", error.localizedDescription);

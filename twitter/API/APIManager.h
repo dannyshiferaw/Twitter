@@ -26,6 +26,6 @@
 -(void)retweet:(Tweet *)tweet completion:(void (^)(Tweet *, NSError *))completion;
 
 //returns account profiel information
--(void)getOwnerProfile: (void(^)(User *user, NSError *error))completion;
+-(void)getProfile: (void(^)(User *user, NSError *error))completion;
 
 @end
