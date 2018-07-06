@@ -25,4 +25,7 @@
 //called when a tweet is retweeted/unretweeted
 -(void)retweet:(Tweet *)tweet completion:(void (^)(Tweet *, NSError *))completion;
 
+//returns account profiel information
+-(void)getOwnerProfile: (void(^)(User *user, NSError *error))completion;
+
 @end

@@ -97,7 +97,7 @@ SOFTWARE.</string>
 			<key>License</key>
 			<string>MIT</string>
 			<key>Title</key>
-			<string>DateToolsSwift</string>
+			<string>DateTools</string>
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>
 		</dict>

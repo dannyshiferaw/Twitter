@@ -13,7 +13,6 @@
 
 @property (weak, nonatomic) IBOutlet UITextView *composeTextView;
 
-
 @end
 
 //  ComposeViewController.h

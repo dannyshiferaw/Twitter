@@ -75,6 +75,8 @@
                                                                // Store access token
                                                                [self.requestSerializer saveAccessToken:accessToken];
                                                                
+                                                
+                                                               
                                                                // Call success
                                                                if (completion) { completion(true, error); }
                                                                
@@ -84,6 +86,9 @@
                                     
                                 }];
                                 [self.authenticationSession start];
+                                
+                             
+                        
                                 
                             } failure:^(NSError *error) {
                                 if (completion) { completion(false, error); }

@@ -32,6 +32,8 @@
 
 @property (nonatomic, strong) Tweet *tweet;
 
+
+//Populates the cell with tweet and user data 
 -(void)configureCell:(Tweet *)tweet;
 
 

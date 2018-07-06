@@ -21,7 +21,7 @@
             //change tweet to original
             dictionary = originalTweet;
         }
-        self.createdAt = dictionary[@"created_at"];
+        self.createdAt = [self format:dictionary[@"created_at"]];
         self.tweetId = dictionary[@"id_str"];
         self.tweetIntId = [dictionary[@"id"] integerValue];
         self.text = dictionary[@"text"];
@@ -54,13 +54,14 @@
 }
 
 //formats Date
--(NSString *)format: (NSString *)created_date {
+-(NSDate *)format: (NSString *)created_date {
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     formatter.dateFormat =  @"E MMM d HH:mm:ss Z y";
     NSDate *date = [formatter dateFromString: created_date];
-    formatter.dateStyle = NSDateFormatterShortStyle;
-    formatter.timeStyle = NSDateFormatterNoStyle;
-    return [formatter stringFromDate:date];
+    //formatter.dateStyle = NSDateFormatterShortStyle;
+    //formatter.timeStyle = NSDateFormatterNoStyle;
+    //return [formatter stringFromDate:date];
+    return date;
 }
 
 @end

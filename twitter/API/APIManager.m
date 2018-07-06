@@ -72,10 +72,14 @@ static NSString * const consumerSecret = @"O87fLl5eZcLWelPwtAHSXNbgPTlqlyt10Q6Sg
    }];
 }
 
+//posts a new tweet
 - (void)postTweet:(NSString *)tweetText completion:(void (^)(Tweet *, NSError *))completion {
+    
+    //api end point and necessary paramerters
     NSString *urlString = @"1.1/statuses/update.json";
     NSDictionary *parameters = @{@"status": tweetText};
     
+    //POST requst
     [self POST:urlString parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable tweetDictionary) {
         Tweet *tweet = [[Tweet alloc]initWithDictionary:tweetDictionary];
         completion(tweet, nil);
@@ -84,13 +88,17 @@ static NSString * const consumerSecret = @"O87fLl5eZcLWelPwtAHSXNbgPTlqlyt10Q6Sg
     }];
 }
 
-//called when favorite button is clicked 
+//checks if it's favorite or unfavorite action and makes a post
+//request using the correspoinding API end point
 - (void)favorite:(Tweet *)tweet completion:(void (^)(Tweet *, NSError *))completion {
+    //end point
     NSString *urlString;
+    
+    //set the endpoint
     if (tweet.isFavorite) urlString = @"1.1/favorites/create.json";
     else urlString =  @"1.1/favorites/destroy.json";
-
     
+    //make a POST request
     NSDictionary *parameters = @{@"id":tweet.tweetId};
     [self POST:urlString parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable tweetDictionary) {
         Tweet *tweet = [[Tweet alloc]initWithDictionary:tweetDictionary];
@@ -100,12 +108,17 @@ static NSString * const consumerSecret = @"O87fLl5eZcLWelPwtAHSXNbgPTlqlyt10Q6Sg
     }];
 }
 
+//checks if it's a retweet or unretweet and makes POST request
+//using the corresponding API end point
 -(void)retweet:(Tweet *)tweet completion:(void (^)(Tweet *, NSError *))completion {
+    //end point
     NSString *urlString;
     
+    //set the end point
     if (tweet.isRetweeted) urlString = @"1.1/statuses/retweet.json";
     else urlString = @"1.1/statuses/unretweet.json";
     
+    //mae post request
     NSDictionary *parameters = @{@"id":tweet.tweetId};
     [self POST:urlString parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable tweetDictionary) {
         Tweet *tweet = [[Tweet alloc]initWithDictionary:tweetDictionary];
@@ -113,6 +126,20 @@ static NSString * const consumerSecret = @"O87fLl5eZcLWelPwtAHSXNbgPTlqlyt10Q6Sg
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         completion(nil, error);
     }];
+}
+
+-(void)getOwnerProfile: (void(^)(User *user, NSError *error))completion {
+    //end point
+    NSString *urlString = @"1.1/account/verify_credentials.json";
+    
+    //make GET request
+    [self GET:urlString parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable userProfile) {
+        User *user  = [[User alloc] initWithDictionary:userProfile];
+        completion(user, nil);
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        completion(nil, error);
+    }];
+
 }
 
 
