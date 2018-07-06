@@ -5,7 +5,8 @@
 //  Created by emersonmalca on 5/28/18.
 //  Copyright © 2018 Emerson Malca. All rights reserved.
 //
-
+#import "AppDelegate.h"
+#import "LoginViewController.h"
 #import "TimelineViewController.h"
 #import "APIManager.h"
 #import "TweetCell.h"
@@ -86,6 +87,15 @@ UIRefreshControl *refreshControl;
 -(void)beginRefreshing: (UIRefreshControl *)refreshControl {
     [self loadTweets];
     [refreshControl endRefreshing];
+}
+- (IBAction)logout:(id)sender {
+    AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    LoginViewController *loginViewController = [storyboard instantiateViewControllerWithIdentifier:@"LoginViewController"];
+    appDelegate.window.rootViewController = loginViewController;
+    
+    [[APIManager shared] logout];
 }
 
 

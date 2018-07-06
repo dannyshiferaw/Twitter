@@ -6,8 +6,10 @@
 //  Copyright © 2018 Emerson Malca. All rights reserved.
 //
 
+#import "AppDelegate.h"
 #import "TweetCell.h"
 #import "APIManager.h"
+#import "LoginViewController.h"
 #import <UIKit+AFNetworking.h>
 
 @implementation TweetCell
@@ -19,8 +21,9 @@
 
 -(void)configureCell:(Tweet *)tweet {
    
+    
     self.tweet = tweet;
-    self.textLabel.text = self.tweet.text;
+    self.tweetLabel.text = [NSString stringWithFormat:@"%@%@", @"@", self.tweet.text];
     self.numOfFavoritesLabel.text = [NSString stringWithFormat:@"%d", self.tweet.favoriteCount];
     self.numOfRetweetsLabel.text = [NSString stringWithFormat:@"%d", self.tweet.retweetCount];
     
@@ -82,11 +85,22 @@
     self.numOfFavoritesLabel.text = [NSString stringWithFormat:@"%d", self.tweet.favoriteCount];
     self.numOfRetweetsLabel.text =  [NSString stringWithFormat:@"%d", self.tweet.retweetCount];
 }
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
+- (IBAction)logout:(id)sender {
+    AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    LoginViewController *loginViewController = [storyboard instantiateViewControllerWithIdentifier:@"LoginViewController"];
+    appDelegate.window.rootViewController = loginViewController;
 }
+
+
+
+
+
+//- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+//    //[super setSelected:selected animated:animated];
+//
+//    // Configure the view for the selected state
+//}
 
 @end

@@ -17,7 +17,8 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *usernameLabel;
 
-@property (weak, nonatomic) IBOutlet UILabel *textLabel;
+@property (weak, nonatomic) IBOutlet UILabel *tweetLabel
+;
 
 @property (weak, nonatomic) IBOutlet UILabel *numOfRepliesLabel;
 
