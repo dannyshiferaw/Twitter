@@ -9,6 +9,7 @@
 #import "ProfileViewController.h"
 #import "User.h"
 #import "APIManager.h"
+#import "TweetCell.h"
 #import <UIKit+AFNetworking.h>
 
 @interface ProfileViewController ()
@@ -25,15 +26,17 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *userFollowerCount;
 
-@property (nonatomic, strong) User *user;
 @end
 
 @implementation ProfileViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    [self loadUser];    
+    //if user is not loaded 
+    if (self.user == nil) {
+        [self loadUser];
+    }
+    [self configureUI];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -68,6 +71,7 @@
     
 }
 
+
 /*
 #pragma mark - Navigation
 
@@ -77,5 +81,7 @@
     // Pass the selected object to the new view controller.
 }
 */
+
+
 
 @end

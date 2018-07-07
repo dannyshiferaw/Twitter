@@ -17,7 +17,10 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    // Initialization code
+    //setup gesture
+     UITapGestureRecognizer *profileTapGestureRecognizer = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(didTapUserProfile:)];
+    [self.profileImageView addGestureRecognizer:profileTapGestureRecognizer];
+    [self.profileImageView setUserInteractionEnabled:YES];
 }
 
 //populates cell with data
@@ -30,6 +33,7 @@
     self.numOfRetweetsLabel.text = [NSString stringWithFormat:@"%d", self.tweet.retweetCount];     //retweets count
     self.numOfRepliesLabel.text = [NSString stringWithFormat:@"%d", 0];     //retweets count
     
+    
     //get tweeter's info
     User *user = [self.tweet user];
     [self.profileImageView setImageWithURL:user.profileImageUrl];       //user profile image
@@ -38,6 +42,14 @@
     //get duration between the time the tweet was posted and now
     NSString *duration = [self.tweet.createdAt shortTimeAgoSinceNow];
     self.usernameLabel.text = [NSString stringWithFormat:@"%@%@%@%@", @"@",user.screenName,@" . ", duration];
+    
+    //toggle
+    if (self.tweet.isFavorite) {
+        self.favBtn.selected = YES;
+    }
+    if (self.tweet.isRetweeted) {
+        self.retweetBtn.selected = YES;
+    }
 }
 
 //if favorited, increments otherwise decrements num of favorites
@@ -97,14 +109,13 @@
     self.numOfFavoritesLabel.text = [NSString stringWithFormat:@"%d", self.tweet.favoriteCount];
     self.numOfRetweetsLabel.text =  [NSString stringWithFormat:@"%d", self.tweet.retweetCount];
 }
-//logout
-- (IBAction)logout:(id)sender {
-    AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-    
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    LoginViewController *loginViewController = [storyboard instantiateViewControllerWithIdentifier:@"LoginViewController"];
-    appDelegate.window.rootViewController = loginViewController;
+
+
+- (void) didTapUserProfile:(UITapGestureRecognizer *)sender{
+   [self.delegate tweetCell:self didTap:self.tweet.user];
 }
+
+
 
 
 //- (void)setSelected:(BOOL)selected animated:(BOOL)animated {

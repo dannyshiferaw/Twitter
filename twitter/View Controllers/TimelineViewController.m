@@ -11,10 +11,13 @@
 #import "APIManager.h"
 #import "TweetCell.h"
 #import "ComposeViewController.h"
+#import "ProfileViewController.h"
 
-@interface TimelineViewController () <UITableViewDataSource, UITableViewDelegate, ComposeViewControllerDelegate>
+@interface TimelineViewController () <UITableViewDataSource, UITableViewDelegate, ComposeViewControllerDelegate,
+TweetCellDelegate, UIScrollViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (assign, nonatomic) BOOL isMoreDataLoading;
 
 @end
 
@@ -59,6 +62,7 @@ UIRefreshControl *refreshControl;
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     TweetCell *tweetCell = [tableView dequeueReusableCellWithIdentifier:@"TweetCell" forIndexPath:indexPath];
+    tweetCell.delegate = self;
     Tweet *tweet = self.tweets[indexPath.row];
     [tweetCell configureCell:tweet];
     return tweetCell;
@@ -74,9 +78,14 @@ UIRefreshControl *refreshControl;
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    UINavigationController *navigationController = [segue destinationViewController];
-    ComposeViewController *composeController = (ComposeViewController*)navigationController.topViewController;
-    composeController.delegate = self;
+    if ([segue.identifier isEqualToString:@"toProfileViewController"]) {
+        ProfileViewController *profileViewController = [segue destinationViewController];
+        profileViewController.user = sender;
+    } else {
+        UINavigationController *navigationController = [segue destinationViewController];
+        ComposeViewController *composeController = (ComposeViewController*)navigationController.topViewController;
+        composeController.delegate = self;
+    }
 }
 //Calls the API manager to get tweets, and reloads table
 //hides refresh controller
@@ -92,6 +101,24 @@ UIRefreshControl *refreshControl;
     appDelegate.window.rootViewController = loginViewController;
     
     [[APIManager shared] logout];
+}
+
+- (void)tweetCell:(TweetCell *)tweetCell didTap:(User *)user{
+    [self performSegueWithIdentifier:@"toProfileViewController" sender:user];
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    if(!self.isMoreDataLoading){
+        // Calculate the position of one screen length before the bottom of the results
+        int scrollViewContentHeight = self.tableView.contentSize.height;
+        int scrollOffsetThreshold = scrollViewContentHeight - self.tableView.bounds.size.height;
+        
+        // When the user has scrolled past the threshold, start requesting
+        if(scrollView.contentOffset.y > scrollOffsetThreshold && self.tableView.isDragging) {
+            self.isMoreDataLoading = true;
+            
+        }
+    }
 }
 
 
