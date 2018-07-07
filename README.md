@@ -50,6 +50,9 @@ Please list two areas of the assignment you'd like to **discuss further with you
 1. I would fix the layout
 2. I would want to do this pragmatically
 
+
+#My computer broke last minute. I was only able to commit what I had. I wasn't able to add gif. 
+
 ## Video Walkthrough
 
 Here's a walkthrough of implemented user stories:
