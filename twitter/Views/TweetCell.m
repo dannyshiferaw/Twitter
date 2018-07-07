@@ -31,7 +31,7 @@
     self.tweetLabel.text = [NSString stringWithFormat:@"%@", self.tweet.text];           //tweet text
     self.numOfFavoritesLabel.text = [NSString stringWithFormat:@"%d", self.tweet.favoriteCount];   //favorite count
     self.numOfRetweetsLabel.text = [NSString stringWithFormat:@"%d", self.tweet.retweetCount];     //retweets count
-    self.numOfRepliesLabel.text = [NSString stringWithFormat:@"%d", 0];     //retweets count
+    self.numOfRepliesLabel.text = [NSString stringWithFormat:@"%d", self.tweet.user.tweets_count];     //retweets count
     
     
     //get tweeter's info

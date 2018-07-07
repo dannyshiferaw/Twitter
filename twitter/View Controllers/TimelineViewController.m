@@ -19,6 +19,7 @@ TweetCellDelegate, UIScrollViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (assign, nonatomic) BOOL isMoreDataLoading;
 
+@property (strong, nonatomic) NSNumber *numOfTweetsToFetch;
 @end
 
 @implementation TimelineViewController
@@ -27,6 +28,8 @@ UIRefreshControl *refreshControl;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    _numOfTweetsToFetch = @20;
 
     refreshControl = [[UIRefreshControl alloc] init];
     [refreshControl addTarget:self action:@selector(beginRefreshing:) forControlEvents:UIControlEventValueChanged];
@@ -39,12 +42,12 @@ UIRefreshControl *refreshControl;
     self.tableView.rowHeight = 200; 
     
     
-    [self loadTweets];
+    [self loadTweets:self.numOfTweetsToFetch];
 }
 
 //Get Timeline
--(void)loadTweets {
-    [[APIManager shared] getHomeTimelineWithCompletion:^(NSArray *tweetsArray, NSError *error) {
+-(void)loadTweets:(NSNumber *)numOfTweets {
+    [[APIManager shared] getHomeTimelineWithCompletion:numOfTweets completion:^(NSArray *tweetsArray, NSError *error) {
         if (tweetsArray) {
             NSLog(@"😎😎😎 Successfully loaded home timeline");
             self.tweets = [[NSMutableArray alloc] initWithArray:tweetsArray];
@@ -90,7 +93,7 @@ UIRefreshControl *refreshControl;
 //Calls the API manager to get tweets, and reloads table
 //hides refresh controller
 -(void)beginRefreshing: (UIRefreshControl *)refreshControl {
-    [self loadTweets];
+    [self loadTweets: self.numOfTweetsToFetch];
     [refreshControl endRefreshing];
 }
 - (IBAction)logout:(id)sender {
@@ -116,7 +119,7 @@ UIRefreshControl *refreshControl;
         // When the user has scrolled past the threshold, start requesting
         if(scrollView.contentOffset.y > scrollOffsetThreshold && self.tableView.isDragging) {
             self.isMoreDataLoading = true;
-            
+            [self loadTweets:@200];
         }
     }
 }

@@ -14,7 +14,7 @@
 
 + (instancetype)shared;
 
-- (void)getHomeTimelineWithCompletion:(void(^)(NSArray *tweets, NSError *error))completion;
+- (void)getHomeTimelineWithCompletion:(NSNumber *)numOfTweets completion:(void(^)(NSArray *tweets, NSError *error))completion;
 
 //compose and sends new tweets
 - (void)postTweet:(NSString *)tweetText completion:(void (^)(Tweet *, NSError *))completion;

@@ -55,7 +55,6 @@
             NSLog(@"😫😫😫 Error getting owner profile: %@", error.localizedDescription);
         }
     }];
-    
 }
 
 -(void)configureUI {
@@ -67,7 +66,7 @@
                                    self.user.followers_count];
     self.userFollowingCount.text = [NSString stringWithFormat:@"%d",
                                     self.user.following_count];
-    self.userTweetsCount.text = [NSString stringWithFormat:@"%d",0];
+    self.userTweetsCount.text = [NSString stringWithFormat:@"%d",self.user.tweets_count];
     
 }
 
