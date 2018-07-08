@@ -48,7 +48,7 @@ static NSString * const consumerSecret = @"O87fLl5eZcLWelPwtAHSXNbgPTlqlyt10Q6Sg
     return self;
 }
 
-- (void)getHomeTimelineWithCompletion:(NSNumber *)numberOfTweets completion:(void(^)(NSArray *tweets, NSError *error))completion {
+- (void)getHomeTimelineWithCompletion:(NSNumber *) numberOfTweets completion:(void(^)(NSArray *tweets, NSError *error))completion {
     
     NSURL *urlString = @"1.1/statuses/home_timeline.json";
     NSDictionary *parameters =  @{@"count": numberOfTweets};

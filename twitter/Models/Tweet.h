@@ -17,7 +17,7 @@
 @property(nonatomic, strong) NSString *text;
 @property(nonatomic) int favoriteCount;
 @property(nonatomic) BOOL isFavorite;
-@property(nonatomic) NSInteger *retweetCount;
+@property(nonatomic) int retweetCount;
 @property(nonatomic) BOOL isRetweeted;
 @property(nonatomic, strong) User *user;
 
